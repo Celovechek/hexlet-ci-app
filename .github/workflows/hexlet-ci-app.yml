@@ -1,0 +1,20 @@
+name: hexlet-ci-app
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repoditory
+        uses: actions/checkout@v3
+
+      - name: Setup
+        run: make setup
+
+      - name: Start
+        run: make start
+
+      - name: Test
+        run: make test
+
+      - name: Linter
+        run: make lint
