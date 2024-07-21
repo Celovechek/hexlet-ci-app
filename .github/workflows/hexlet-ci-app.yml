@@ -9,25 +9,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Checkout repository (duplicate step removed)
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
+        with:
+          args: --all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Setup Node.js
+      - name: Caching npm dependencies
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
+      - run: npm ci
+      - run: npm test
 
       - name: Setup
         run: make setup
